@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openfe_mmgbsa"
+description = "An OpenMM-only MM/GBSA Protocol for OpenFE"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dynamic = ["version"]
+dependencies = [
+    "openfe>=1.10,<2",
+    "gufe",
+    "openmm>=8.1",
+    "MDAnalysis>=2.7",
+    "mdtraj",
+    "pymbar>=4",
+    "numpy",
+]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-xdist"]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: runs a (short) MD simulation",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[tool.ruff]
+line-length = 100
