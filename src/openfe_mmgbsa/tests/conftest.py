@@ -42,14 +42,14 @@ class SlowTests:
 
     To run the `gpu` tests, either use the `--gpu` flag
     when invoking pytest, or set the environment variable
-    `PONTIBUS_GPU_TESTS` to `true`. Note: triggering `gpu` will
+    `ENABLE_GPU_TESTS` to `true`. Note: triggering `gpu` will
     automatically also trigger tests marked as `slow`.
 
     To run the `slow` tests, either use the `--slow` flag when invoking
-    pytest, or set the environment variable `PONTIBUS_SLOW_TESTS` to `true`.
+    pytest, or set the environment variable `ENABLE_SLOW_TESTS` to `true`.
 
     To run the `cpuvslow` tests, either use the `--cpuvslow` flag when
-    invoking pytest, or set the environment variable `PONTIBUS_CPUVSLOW_TESTS`
+    invoking pytest, or set the environment variable `ENABLE_CPUVSLOW_TESTS`
     to `true`.
     """
 
@@ -60,7 +60,7 @@ class SlowTests:
     def _modify_slow(items, config):
         msg = (
             "needs --slow pytest cli option or the environment variable "
-            "`PONTIBUS_SLOW_TESTS` set to `True` to run"
+            "`ENABLE_SLOW_TESTS` set to `True` to run"
         )
         skip_slow = pytest.mark.skip(reason=msg)
         for item in items:
@@ -71,7 +71,7 @@ class SlowTests:
     def _modify_gpu(items, config):
         msg = (
             "needs --gpu pytest cli option or the environment "
-            "variable `PONTIBUS_GPU_TESTS` set to `True` to run"
+            "variable `ENABLE_GPU_TESTS` set to `True` to run"
         )
         skip_int = pytest.mark.skip(reason=msg)
         for item in items:
@@ -82,24 +82,24 @@ class SlowTests:
     def _modify_cpuvslow(items, config):
         msg = (
             "needs --cpuvslow pytest cli option or the environment "
-            "variable `PONTIBUS_CPUVSLOW_TESTS` set to `True` to run"
+            "variable `ENABLE_CPUVSLOW_TESTS` set to `True` to run"
         )
 
 
     def pytest_collection_modifyitems(self, items, config):
         if (
             config.getoption("--gpu")
-            or os.getenv("PONTIBUS_GPU_TESTS", default="false").lower() == "true"
+            or os.getenv("ENABLE_GPU_TESTS", default="false").lower() == "true"
         ):
             self._modify_cpuvslow(items, config)
         elif (
             config.getoption("--cpuvslow")
-            or os.getenv("PONTIBUS_CPUVSLOW_TESTS", default="false").lower() == "true"
+            or os.getenv("ENABLE_CPUVSLOW_TESTS", default="false").lower() == "true"
         ):
             self._modify_gpu(items, config)
         elif (
             config.getoption("--slow")
-            or os.getenv("PONTIBUS_SLOW_TESTS", default="false").lower() == "true"
+            or os.getenv("ENABLE_SLOW_TESTS", default="false").lower() == "true"
         ):
             self._modify_gpu(items, config)
             self._modify_cpuvslow(items, config)

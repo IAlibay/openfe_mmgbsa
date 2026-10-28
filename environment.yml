@@ -1,0 +1,12 @@
+name: openfe_mmgbsa
+channels:
+  - conda-forge
+dependencies:
+  - pip
+  - gufe >=1.13
+  - openfe >=1.13
+  # Testing deps
+  - pytest
+  - pytest-cov
+  - pytest-timeout
+  - pytest-xdist
